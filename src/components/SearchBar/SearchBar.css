@@ -11,7 +11,7 @@
 .SearchBar-sort-options ul {
     display: flex;
     justify-content: center;
-    margin-bottom: 2.22rem;
+    margin-bottom: 2rem;
     color: #ffffff;
 }
 
@@ -68,6 +68,20 @@
     color: #ffffff;
     font-weight: 600;
     transition: background-color .5s;
+    text-decoration: none;
+}
+
+.SearchBar-zeroResult, .SearchBar-loading {
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    padding: .66rem 0 40px;
+    width: 200px;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: 163px;
 }
 
 .SearchBar-submit a:hover {
