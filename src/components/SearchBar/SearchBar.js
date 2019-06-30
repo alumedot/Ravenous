@@ -7,7 +7,8 @@ class SearchBar extends React.Component {
         this.state = {
             term: '',
             location: '',
-            sortBy: 'best_match'
+            sortBy: 'best_match',
+            zeroInput: false,
         };
         this.sortByOptions = {
             'Best Match': 'best_match',
@@ -39,8 +40,47 @@ class SearchBar extends React.Component {
         });
     }
     handleSearch(e) {
-        this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
+        if (this.state.term && this.state.location) {
+            this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
+            this.setState({
+                zeroInput: false
+            });
+        } else {
+            this.setState({
+                zeroInput: true
+            });
+        }
         e.preventDefault();
+    }
+    zeroInput() {
+        if(this.props.loading === false) {
+            if(this.state.zeroInput === true) {
+                return (
+                    <h2 className='SearchBar-zeroResult'>Fill the blanks</h2>
+                )
+            }
+        }
+    }
+    zeroResult() {
+        if(this.props.loading === false) {
+            if(this.state.zeroInput !== true) {
+                if(this.props.businessesAmount === 0) {
+                    return (
+                        <div className='SearchBar-zeroResult'>
+                            <h2>0 result</h2>
+                            <p>let's try again!</p>
+                        </div>
+                    );
+                }
+            }
+        }
+    }
+    loading() {
+        if (this.props.loading === true) {
+            return (
+                <h2 className='SearchBar-loading'>Wait a second . . .</h2>
+            );
+        }
     }
     renderSortByOptions() {
         return Object.keys(this.sortByOptions).map(sortByOption => {
@@ -62,14 +102,18 @@ class SearchBar extends React.Component {
                 </div>
                 <div className="SearchBar-fields">
                     <input onChange={this.handleTermChange}
-                           placeholder="Search Businesses"/>
+                           placeholder="Search Businesses"
+                    />
                     <input onChange={this.handleLocationChange}
                            placeholder="Where?"/>
                 </div>
                 <div onClick={this.handleSearch}
                      className="SearchBar-submit">
-                    <a>Let's Go</a>
+                    <a href="/">Let's Go</a>
                 </div>
+                {this.loading()}
+                {this.zeroInput()}
+                {this.zeroResult()}
             </div>
         )
     }
